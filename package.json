@@ -1,6 +1,6 @@
 {
   "name": "fx-runner",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "description": "A node cli to control Firefox",
   "main": "index.js",
   "bin": {
@@ -26,10 +26,10 @@
   "license": "MPL-2.0",
   "dependencies": {
     "commander": "2.9.0",
-    "fs-promise": "0.3.1",
     "lodash": "3.10.1",
+    "shell-quote": "1.6.1",
     "spawn-sync": "1.0.15",
-    "when": "3.7.2",
+    "when": "3.7.7",
     "which": "1.2.4",
     "winreg": "0.0.12"
   },

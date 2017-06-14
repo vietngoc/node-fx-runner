@@ -4,7 +4,6 @@
 "use strict";
 
 var when = require("when");
-var fs = require("fs-promise");
 var path = require("path");
 var utils = require("../utils");
 var chai = require("chai");
@@ -13,6 +12,7 @@ var exec = utils.exec;
 var isWindows = /^win/.test(process.platform);
 var normalizeBinary = require("../../lib/utils").normalizeBinary;
 var cp = require("child_process");
+var parse = require("shell-quote").parse;
 
 var fakeBinary = path.join(__dirname, "..", "utils", "dummybinary" +
   (isWindows ? ".bat" : ".sh"));
@@ -104,7 +104,7 @@ describe("fx-runner start", function () {
       var proc = exec("start -v -b " + fakeBinary + " --listen 6666", {}, function (err, stdout, stderr) {
         expect(err).to.not.be.ok;
         expect(stderr).to.not.be.ok;
-        expect(stdout).to.contain("--start-debugger-server");
+        expect(stdout).to.contain("-start-debugger-server");
         expect(stdout).to.contain("6666");
         expect(stdout).to.not.contain("--listen");
         expect(stdout).to.not.contain("-P");
@@ -113,5 +113,15 @@ describe("fx-runner start", function () {
         done();
       });
     });
+  });
+});
+
+describe("concat binary arguments", function () {
+  it("concats binary arguments from a string", function () {
+    var arr = parse("-a b -c \"d e\"");
+    expect(arr[0]).to.be.equal("-a");
+    expect(arr[1]).to.be.equal("b");
+    expect(arr[2]).to.be.equal("-c");
+    expect(arr[3]).to.be.equal("d e");
   });
 });
